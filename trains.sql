@@ -14,12 +14,14 @@ CREATE TABLE Trains(
 CREATE TABLE Schedules(
     Train_ID        char(2) NOT NULL,
     Station_ID      char(2) NOT NULL,
+    Schedule_ID		char(2) NOT NULL,
     Arrival_Time    TIME,
     Departure_Time  TIME,
+    PRIMARY KEY(Schedule_ID),
     FOREIGN KEY (Train_ID) REFERENCES Trains (Train_ID),
     FOREIGN KEY (Station_ID) REFERENCES Stations (Station_ID)
 );
-CREATE TABLE Customer(
+CREATE TABLE Customers(
 	C_id			varchar(20),
 	Name			varchar(20),
 	Address			varchar(20),
@@ -31,6 +33,24 @@ CREATE TABLE Credit_Cards(
 	PRIMARY KEY(Card_id),
 	FOREIGN KEY (Card_id) REFERENCES Customer(C_id)
 );
+CREATE TABLE Travel_Routes(
+	Schedule_ID		char(2) NOT NULL,
+	FOREIGN KEY (Schedule_ID) REFERENCES Schedules (Schedule_ID)	
+);
+CREATE TABLE Reservations(
+	R_ID			char(2) NOT NULL,
+	Customer_id		varchar(20) NOT NULL,
+	Total_Cost		int,
+	FOREIGN KEY (Customer_id) REFERENCES Customers (C_id),	
+	PRIMARY KEY	(R_ID) REFERENCES Travel_Routes (Schedule_ID)
+);
+CREATE TABLE Payments(
+	C_id 			varchar(20) NOT NULL,
+	Reservation 	char(2) NOT NULL,
+	FOREIGN KEY (C_id) REFERENCES Customers (C_id),
+	FOREIGN KEY (R_ID) REFERENCES Reservations (R_ID)
+);
+
 INSERT INTO Stations VALUES ("1", "Alexandria Station", 	"Alexandria", 		31.298495, -92.445684);
 INSERT INTO Stations VALUES ("2", "Park Station", 			"Denham Springs", 	30.484210, -90.955864);
 INSERT INTO Stations VALUES ("3", "Lake Charles Station", 	"Lake Charles", 	30.238162, -93.217134);
@@ -63,46 +83,46 @@ INSERT INTO Trains VALUES 	("42", "3422", "Buckeye");
 INSERT INTO Trains VALUES 	("27", "3422", "Denali Star");
 
 /*Shreveport 12, Ruston 7, Hodge 6, Jonesboro 11, Alexandria 1, Lafayette 9*/
-INSERT INTO Schedules VALUES("1","12","08:00:00","08:15:00");
-INSERT INTO Schedules VALUES("1","7","09:15:00","09:20:00");
-INSERT INTO Schedules VALUES("1","6","09:40:00","09:45:00");
-INSERT INTO Schedules VALUES("1","11","09:50:00","09:55:00");
-INSERT INTO Schedules VALUES("1","1","11:45:00","12:00:00");
-INSERT INTO Schedules VALUES("1","9","13:30:00","15:00:00");
+INSERT INTO Schedules VALUES("1","12","01","08:00:00","08:15:00");
+INSERT INTO Schedules VALUES("1","7","02","09:15:00","09:20:00");
+INSERT INTO Schedules VALUES("1","6","03","09:40:00","09:45:00");
+INSERT INTO Schedules VALUES("1","11","04","09:50:00","09:55:00");
+INSERT INTO Schedules VALUES("1","1","05","11:45:00","12:00:00");
+INSERT INTO Schedules VALUES("1","9","06","13:30:00","15:00:00");
 
-INSERT INTO Schedules VALUES("1","1","17:00:00","17:15:00");
-INSERT INTO Schedules VALUES("1","11","19:00:00","19:05:00");
-INSERT INTO Schedules VALUES("1","6","19:10:00","19:15:00");
-INSERT INTO Schedules VALUES("1","7","20:00:00","20:15:00");
-INSERT INTO Schedules VALUES("1","12","21:00:00",NULL);
+INSERT INTO Schedules VALUES("1","1","07","17:00:00","17:15:00");
+INSERT INTO Schedules VALUES("1","11","08","19:00:00","19:05:00");
+INSERT INTO Schedules VALUES("1","6","09","19:10:00","19:15:00");
+INSERT INTO Schedules VALUES("1","7","10","20:00:00","20:15:00");
+INSERT INTO Schedules VALUES("1","12","11","21:00:00",NULL);
 
 /*Lake Charles 3, Lafayette 9, Denham Springs 2, Hammond 8, Slidell 5, New Orleans 4*/
-INSERT INTO Schedules VALUES("12","3","08:00:00","08:15:00");
-INSERT INTO Schedules VALUES("12","9","10:00:00","10:15:00");
-INSERT INTO Schedules VALUES("12","2","11:30:00","11:45:00");
-INSERT INTO Schedules VALUES("12","8","12:15:00","12:20:00");
-INSERT INTO Schedules VALUES("12","5","13:30:00","13:35:00");
-INSERT INTO Schedules VALUES("12","4","15:00:00","15:30:00");
+INSERT INTO Schedules VALUES("12","3","12","08:00:00","08:15:00");
+INSERT INTO Schedules VALUES("12","9","13","10:00:00","10:15:00");
+INSERT INTO Schedules VALUES("12","2","14","11:30:00","11:45:00");
+INSERT INTO Schedules VALUES("12","8","15","12:15:00","12:20:00");
+INSERT INTO Schedules VALUES("12","5","16","13:30:00","13:35:00");
+INSERT INTO Schedules VALUES("12","4","17","15:00:00","15:30:00");
 
-INSERT INTO Schedules VALUES("12","5","17:00:00","17:05:00");
-INSERT INTO Schedules VALUES("12","8","17:55:00","18:00:00");
-INSERT INTO Schedules VALUES("12","2","18:30:00","18:35:00");
-INSERT INTO Schedules VALUES("12","9","20:00:00","20:15:00");
-INSERT INTO Schedules VALUES("12","3","22:00:00",NULL);
+INSERT INTO Schedules VALUES("12","5","18","17:00:00","17:05:00");
+INSERT INTO Schedules VALUES("12","8","19","17:55:00","18:00:00");
+INSERT INTO Schedules VALUES("12","2","20","18:30:00","18:35:00");
+INSERT INTO Schedules VALUES("12","9","21","20:00:00","20:15:00");
+INSERT INTO Schedules VALUES("12","3","22","22:00:00",NULL);
 
 /*Lake Charles 3, Leesville 10, Alexandria 1*/
-INSERT INTO Schedules VALUES("2","3","08:00:00","08:15:00");
-INSERT INTO Schedules VALUES("2","10","9:30:00","9:45:00");
-INSERT INTO Schedules VALUES("2","1","10:30:00","11:00:00");
+INSERT INTO Schedules VALUES("2","3","23","08:00:00","08:15:00");
+INSERT INTO Schedules VALUES("2","10","24","9:30:00","9:45:00");
+INSERT INTO Schedules VALUES("2","1","25","10:30:00","11:00:00");
 
-INSERT INTO Schedules VALUES("2","10","11:45:00","12:00:00");
-INSERT INTO Schedules VALUES("2","3","13:15:00","14:30:00");
+INSERT INTO Schedules VALUES("2","10","26","11:45:00","12:00:00");
+INSERT INTO Schedules VALUES("2","3","27","13:15:00","14:30:00");
 
-INSERT INTO Schedules VALUES("2","10","15:45:00","16:00:00");
-INSERT INTO Schedules VALUES("2","1","16:45:00","18:00:00");
+INSERT INTO Schedules VALUES("2","10","28","15:45:00","16:00:00");
+INSERT INTO Schedules VALUES("2","1","29","16:45:00","18:00:00");
 
-INSERT INTO Schedules VALUES("2","10","18:45:00","19:00:00");
-INSERT INTO Schedules VALUES("2","3","20:30:00",NULL);
+INSERT INTO Schedules VALUES("2","10","30","18:45:00","19:00:00");
+INSERT INTO Schedules VALUES("2","3","31","20:30:00",NULL);
 /*Filling Customer*/
 INSERT INTO Customer VALUES 	("000001", "John Cena", "54532 Burbank Drive");
 INSERT INTO Customer VALUES 	("000002", "Ceba Jane", "64433 Lake Drive");
@@ -125,3 +145,45 @@ INSERT INTO Credit_Cards VALUES 	("000007", "5264803530345336");
 INSERT INTO Credit_Cards VALUES 	("000008", "5136052756249527");
 INSERT INTO Credit_Cards VALUES 	("000009", "5277450585193990");
 INSERT INTO Credit_Cards VALUES 	("000010", "5137428474205224");
+
+/*Filling Travel Routes*/
+INSERT INTO Travel_Routes VALUES	("01");
+INSERT INTO Travel_Routes VALUES	("02");
+INSERT INTO Travel_Routes VALUES	("03");
+INSERT INTO Travel_Routes VALUES	("04");
+INSERT INTO Travel_Routes VALUES	("05");
+INSERT INTO Travel_Routes VALUES	("06");
+INSERT INTO Travel_Routes VALUES	("07");
+INSERT INTO Travel_Routes VALUES	("08");
+INSERT INTO Travel_Routes VALUES	("09");
+INSERT INTO Travel_Routes VALUES	("10");
+
+/*Filling Reservations*/
+
+INSERT INTO Reservations VALUES	("01", "000001", "015");
+INSERT INTO Reservations VALUES	("02", "000002", "033");
+INSERT INTO Reservations VALUES	("03", "000003", "059");
+INSERT INTO Reservations VALUES	("04", "000004", "075");
+INSERT INTO Reservations VALUES	("05", "000005", "095");
+INSERT INTO Reservations VALUES	("06", "000006", "113");
+INSERT INTO Reservations VALUES	("07", "000007", "136");
+INSERT INTO Reservations VALUES	("08", "000008", "154");
+INSERT INTO Reservations VALUES	("09", "000009", "172");
+INSERT INTO Reservations VALUES	("10", "000010", "195");
+
+/*Filling Payments*/
+
+INSERT INTO Payments VALUES	("00001", "01");
+INSERT INTO Payments VALUES	("00002", "02");
+INSERT INTO Payments VALUES	("00003", "03");
+INSERT INTO Payments VALUES	("00004", "04");
+INSERT INTO Payments VALUES	("00005", "05");
+INSERT INTO Payments VALUES	("00006", "06");
+INSERT INTO Payments VALUES	("00007", "07");
+INSERT INTO Payments VALUES	("00008", "08");
+INSERT INTO Payments VALUES	("00009", "09");
+INSERT INTO Payments VALUES	("00010", "10");
+
+
+
+
